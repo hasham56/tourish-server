@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require("./../config/passport");
 const {
   validateQuote,
-  validateQuoteIndex
+  validateQuoteIndex,
 } = require("./../middleware/validation/quote_validation_middleware");
 const QuoteController = require("../controllers/quote_controller");
 
@@ -20,8 +20,8 @@ router.get("/:id", QuoteController.show);
 
 router.put(
   "/:id",
-  passport.authenticate("jwt", { session: false }),
-  validateQuote(),
+  //passport.authenticate("jwt", { session: false }),
+  // validateQuote(),
   QuoteController.update
 );
 
