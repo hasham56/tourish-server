@@ -11,6 +11,9 @@ async function create(req, res, next) {
   //logic for creating a resource
   const { type } = req.body;
   console.log(req.body);
+  if (req.body.type === "HolidayF") {
+    req.body.type = "Holiday";
+  }
   try {
     switch (type) {
       case "Flight":
@@ -19,25 +22,29 @@ async function create(req, res, next) {
       case "Hotel":
         quote = await HotelModel.create(req.body);
         break;
+      case "HolidayF":
+        quote = await HolidayModel.create(req.body);
+        break;
       case "Holiday":
         quote = await HolidayModel.create(req.body);
         break;
       default:
         break;
     }
+    console.log("This is Qute we get", quote);
     if (!quote) {
+      console.log("This is Create quote Error");
       return next(new HTTPError(422, "Could not create quote"));
     }
     sendEnquiryEmail(
-      "Hasham",
-      "Nadeem",
-      "dani6347336@gmail.com",
-      "Quote",
-      "This is our Test email Service"
+      req.body.user.email,
+      ` <h1>Payment Pending</h1>
+      <p>You Payment is Pending please pay</p>`
     );
     // sendQuoteEmail(req.body);
     return res.status(201).json({ quote });
   } catch (err) {
+    console.log("This is Quote Error Create: " + err.message);
     return next(new HTTPError(500, err.message));
   }
 }
@@ -87,29 +94,34 @@ async function show(req, res, next) {
 
 async function update(req, res, next) {
   //logic for updating a resource
-  const { id } = req.params;
+  // console.log(req.body);
+  // console.log(req.params);
+  const { _id } = req.body;
   const { type } = req.body;
   let quote;
   try {
     switch (type) {
       case "Flight":
-        quote = await FlightModel.findByIdAndUpdate(id, req.body);
+        quote = await FlightModel.findByIdAndUpdate(_id, req.body);
         break;
       case "Hotel":
-        quote = await HotelModel.findByIdAndUpdate(id, req.body);
+        quote = await HotelModel.findByIdAndUpdate(_id, req.body);
         break;
       case "Holiday":
-        quote = await HolidayModel.findByIdAndUpdate(id, req.body);
+        quote = await HolidayModel.findByIdAndUpdate(_id, req.body);
         break;
       default:
         break;
     }
     if (!quote) {
+      // console.log("In quote");
       return next(new HTTPError(400, "Quote ID not found"));
     }
-    quote = await QuoteModel.findById(id);
+    quote = await QuoteModel.findById(_id);
+    console.log("quote: " + quote);
     return res.json({ quote });
   } catch (err) {
+    console.log("This is Quote Error: " + err.message);
     return next(new HTTPError(500, err.message));
   }
 }

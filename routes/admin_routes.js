@@ -17,7 +17,7 @@ router.get(
 router.post(
   "/create-admin",
   validateAdminDetails(),
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   AdminController.createAdmin
 );
 
