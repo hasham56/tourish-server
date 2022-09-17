@@ -17,8 +17,8 @@ function validateQuote(req, res, next) {
   return (req, res, next) => {
     const JoiSchema = {
       type: Joi.string().valid("Flight", "Holiday", "Hotel").required(),
-      start_date: Joi.date().required(),
-      end_date: Joi.date().required(),
+      // start_date: Joi.date().required(),
+      // end_date: Joi.date().required(),
       destination: Joi.string().required(),
       adults: Joi.number().integer().min(0).required(),
       children: Joi.number().integer().min(0).required(),

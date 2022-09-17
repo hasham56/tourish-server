@@ -14,7 +14,7 @@ router.get(
   QuoteController.index
 );
 
-router.post("/", validateQuote(), QuoteController.create);
+router.post("/", QuoteController.create);
 
 router.get("/:id", QuoteController.show);
 

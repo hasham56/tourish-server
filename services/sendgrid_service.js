@@ -10,13 +10,15 @@ let mailTransporter = nodemailer.createTransport({
   },
 });
 
-function sendEnquiryEmail(first_name, last_name, email, subject, message) {
-  // console.log("In enquiry email", email);
+function sendEnquiryEmail(email, subject) {
+  console.log("In email", email);
   let mailDetails = {
     from: "akbar.neeo@gmail.com",
     to: email,
-    subject: subject,
-    text: message,
+    subject: "Tourish Payment Confirmation email",
+    html: `
+     ${subject}
+    `,
   };
 
   mailTransporter.sendMail(mailDetails, function (err, data) {

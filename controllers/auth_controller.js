@@ -6,13 +6,14 @@ async function login(req, res, next) {
   // console.log(req.body);
   try {
     const { user, error } = await UserModel.authenticate()(email, password);
-    // console.log(user);
+    console.log(user);
     if (error) {
       return next(new HTTPError(401, error.message));
     }
     const token = JWTService.createToken(user._id);
+
     console.log(token);
-    res.json({ token });
+    res.json({ token, userType: user.type });
   } catch (error) {
     return next(error);
   }

@@ -16,12 +16,13 @@ async function overview(req, res, next) {
 }
 
 function createAdmin(req, res, next) {
-  const { email, password, first_name, last_name, telephone } = req.body;
+  const { email, password, first_name, last_name, telephone, type } = req.body;
   const user = new UserModel({
     email,
     first_name,
     last_name,
-    telephone
+    telephone,
+    type,
   });
 
   //saves and encrypts password
@@ -32,10 +33,9 @@ function createAdmin(req, res, next) {
     const token = JWTService.createToken(user);
     return res.status(201).json(token);
   });
-  
 }
 
 module.exports = {
   overview,
-  createAdmin
+  createAdmin,
 };

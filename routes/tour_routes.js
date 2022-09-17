@@ -12,7 +12,7 @@ router.get("/", validateTourIndex(), TourController.index);
 
 router.post(
   "/",
-  passport.authenticate("jwt", { session: false }),
+
   imageUpload,
   validateTour(),
   TourController.create
