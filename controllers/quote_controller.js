@@ -36,11 +36,19 @@ async function create(req, res, next) {
       console.log("This is Create quote Error");
       return next(new HTTPError(422, "Could not create quote"));
     }
-    sendEnquiryEmail(
-      req.body.user.email,
-      ` <h1>Payment Pending</h1>
-      <p>You Payment is Pending please pay</p>`
-    );
+    if (type === 'HolidayF') {
+      sendEnquiryEmail(
+        req.body.user.email,
+        ` <h1>Payment Pending</h1>
+        <p>You Payment is Pending please pay</p>`
+      );
+    } else {
+      sendEnquiryEmail(
+        req.body.user.email,
+        ` <h1>Request Submited</h1>
+        <p>Your Request has been Submited, we will contact you once we get enough request for these specific dates and locations.</p>`
+      );
+    }
     // sendQuoteEmail(req.body);
     return res.status(201).json({ quote });
   } catch (err) {
